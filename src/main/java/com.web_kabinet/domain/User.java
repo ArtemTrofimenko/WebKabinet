@@ -12,9 +12,9 @@ import java.util.Set;
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contragent_id")
+    Contragent contragent;
 
     public String getFullname() {
         return fullname;
@@ -46,6 +46,21 @@ public class User implements UserDetails {
     private Integer userPhoneNumber;
     private String password;
     private boolean active;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+
+    public void setUserPhoneNumber(Integer userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public Contragent getContragent() {
+        return contragent;
+    }
+
+    public void setContragent(Contragent contragent) {
+        this.contragent = contragent;
+    }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

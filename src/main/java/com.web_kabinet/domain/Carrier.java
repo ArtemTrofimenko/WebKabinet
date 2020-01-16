@@ -6,14 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Contragent {
+public class Carrier {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
 
+    private String carrierName;
 
-    private String contragentName;
+    public Carrier() {
+    }
 
+    public Carrier(String carrierName) {
+
+        this.carrierName = carrierName;
+    }
 
     public Integer getId() {
         return id;
@@ -23,20 +29,8 @@ public class Contragent {
         this.id = id;
     }
 
-    public String getContragentName() {
-        return contragentName;
+    public String getCarrierName() {
+        return carrierName;
     }
 
-    public void setContragentName(String contragentName) {
-        this.contragentName = contragentName;
-    }
-
-
-    public Contragent() {
-    }
-
-    public Contragent(String contragentName) {
-
-        this.contragentName = contragentName;
-    }
 }
