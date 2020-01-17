@@ -10,8 +10,6 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
-
-
     private String carModel;
     private String carNumber;
 

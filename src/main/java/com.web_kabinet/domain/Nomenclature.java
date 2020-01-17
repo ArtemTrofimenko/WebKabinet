@@ -16,6 +16,10 @@ public class Nomenclature {
     public Nomenclature() {
     }
 
+    public Nomenclature(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

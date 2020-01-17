@@ -11,12 +11,29 @@ public class Elevator {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer elevatorId;
+
+    public Elevator(Integer elevatorId, String elevatorName, Integer elevatorEDRPOU) {
+        this.elevatorId = elevatorId;
+        this.elevatorName = elevatorName;
+        this.elevatorEDRPOU = elevatorEDRPOU;
+    }
+
+    public Integer getElevatorId() {
+        return elevatorId;
+    }
+
     private String elevatorName;
     private Integer elevatorEDRPOU;
 
     public Elevator(String elevatorName, Integer elevatorEDRPOU) {
         this.elevatorName = elevatorName;
         this.elevatorEDRPOU = elevatorEDRPOU;
+    }
+
+    public void setElevatorId(Integer elevatorId) {
+        this.elevatorId = elevatorId;
     }
 
     public Elevator() {

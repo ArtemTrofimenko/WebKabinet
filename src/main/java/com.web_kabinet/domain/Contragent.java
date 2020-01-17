@@ -11,7 +11,8 @@ public class Contragent {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
 
-
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer contragentId;
     private String contragentName;
 
 

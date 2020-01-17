@@ -13,7 +13,7 @@
 
 <#list elevators as elevator>
 <div>
-    <b>${elevator.id}</b>
+
     <span>${elevator.elevatorName}</span>
     <i>${elevator.elevatorEDRPOU} </i>
 

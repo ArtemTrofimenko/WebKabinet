@@ -38,6 +38,6 @@ public class ElevatorController {
 
         Iterable<Elevator> elevators = elevatorRepo.findAll();
         model.put("elevators", elevators);
-        return "main";
+        return "elevator";
     }
 }
