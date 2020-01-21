@@ -3,6 +3,5 @@
 Add new user
 <@c.page><@l.login "/registration" true/>
 
-<!--${message}-->
 
 </@c.page>

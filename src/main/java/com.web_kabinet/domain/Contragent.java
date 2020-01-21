@@ -9,18 +9,18 @@ import javax.persistence.Id;
 public class Contragent {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private Long id;
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer contragentId;
+    private Long contragentId;
     private String contragentName;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@
 
 <#list carriers as carrier>
 <div>
-    <b>${carrier.carrierId}</b>
+    <b>${carrier.id}</b>
     <span>${carrier.carrierName}</span>
 
 

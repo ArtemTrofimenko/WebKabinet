@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private Long id;
     private String carModel;
     private String carNumber;
 
@@ -21,11 +21,11 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

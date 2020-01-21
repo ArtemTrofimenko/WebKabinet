@@ -29,6 +29,7 @@ public class UserController {
     }
     @GetMapping("{user}")
     public String userEditForm(
+
             @PathVariable User user,
                                Model model){
         model.addAttribute("user", user);
@@ -43,8 +44,8 @@ public class UserController {
             @RequestParam String username,
             @RequestParam String userEmail,
             @RequestParam Integer userPhoneNumber,
-            @RequestParam (name ="activeUs", required = false, defaultValue = "") String active,
-            @RequestParam String fullname,
+            @RequestParam(name = "activeUs", required = false, defaultValue = "") String active,
+            @RequestParam(name = "fullname", required = false, defaultValue = "Введите ФИО") String fullname,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user){
         Set<String> roles = Arrays.stream(Role.values())

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Nomenclature {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private Long id;
 
     private String name;
 

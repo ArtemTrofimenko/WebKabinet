@@ -6,17 +6,15 @@ import javax.persistence.*;
 
 
 @Entity
-public class Message {
+public class Ttn {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
 
-    private Integer id;
+    private Long id;
 
 
-    private String text;
-    private String tag;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -32,8 +30,7 @@ public class Message {
     private Driver driver;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "" +
-            "elevator_id")
+    @JoinColumn(name = "elevator_id")
     private Elevator elevator;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -45,9 +42,7 @@ public class Message {
     private Vehicle vehicle;
 
 
-    public Message(String text, String tag, User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle) {
-        this.text = text;
-        this.tag = tag;
+    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle) {
         this.author = author;
         this.carrier = carrier;
         this.contragent = contragent;
@@ -65,40 +60,43 @@ public class Message {
         this.author = author;
     }
 
-    public Integer getId() {
+    public Ttn() {
+    }
+
+    public Ttn(User user) {
+        this.author = user;
+
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Message() {
-    }
-
-    public Message(String text, String tag, User user) {
-        this.author = user;
-        this.text = text;
-        this.tag = tag;
     }
 
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
+    }
+
+    public String getDriverName() {
+        return driver != null ? driver.getName() : "<none>";
+    }
+
+    public String getCarrier() {
+        return carrier.getCarrierName();
+    }
+
+    public String getElevatorName() {
+        return elevator.getElevatorName();
+    }
+
+    public String getNomenclatureName() {
+        return nomenclature.getName();
+    }
+
+    public String getVehicleName() {
+        return vehicle.getCarModel() + " " + vehicle.getCarNumber();
     }
 }

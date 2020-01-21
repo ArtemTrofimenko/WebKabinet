@@ -4,7 +4,6 @@ import com.web_kabinet.domain.Role;
 import com.web_kabinet.domain.User;
 import com.web_kabinet.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,7 @@ public class RegistrationController {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            model.put("message", "User exists!");
+            model.put("ttn", "User exists!");
             return "registration";
         }
 

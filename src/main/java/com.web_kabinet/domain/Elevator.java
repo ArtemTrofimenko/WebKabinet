@@ -9,18 +9,18 @@ import javax.persistence.Id;
 public class Elevator {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private Long id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer elevatorId;
+    private Long elevatorId;
 
-    public Elevator(Integer elevatorId, String elevatorName, Integer elevatorEDRPOU) {
+    public Elevator(Long elevatorId, String elevatorName, Integer elevatorEDRPOU) {
         this.elevatorId = elevatorId;
         this.elevatorName = elevatorName;
         this.elevatorEDRPOU = elevatorEDRPOU;
     }
 
-    public Integer getElevatorId() {
+    public Long getElevatorId() {
         return elevatorId;
     }
 
@@ -32,18 +32,18 @@ public class Elevator {
         this.elevatorEDRPOU = elevatorEDRPOU;
     }
 
-    public void setElevatorId(Integer elevatorId) {
+    public void setElevatorId(Long elevatorId) {
         this.elevatorId = elevatorId;
     }
 
     public Elevator() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

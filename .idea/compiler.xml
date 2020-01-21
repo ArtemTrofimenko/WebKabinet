@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="web_kabinet" target="1.8" />
+      <module name="web_kabinet" target="9" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

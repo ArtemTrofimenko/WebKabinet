@@ -5,7 +5,7 @@ User Editor
 <form action="/user" method="post">
 
     <input type="text" name="username" value="${user.username}">
-        <input type="text" name="fullname" value="${user.fullname}">
+        <input name="fullname" type="text">
         <input type="email" name="userEmail" >
         <input type="number" name="userPhoneNumber" >
     <input type="hidden" value="${user.id}" name="userId">

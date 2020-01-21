@@ -1,29 +1,32 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
-<div>
-    <form method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <input type="text" name="text" placeholder="Введите сообщение">
-        <input type="text" name="tag" placeholder="Тэг">
-        <button type="submit">Добавить</button>
-    </form>
-</div>
 
-<div> Список сообщений</div>
+<div>ТТН</div>
 <form method="get" action="/main">
 
-    <input type="text" name="filter"class="form-control" value="${filter?ifExists}" placeholder="Search by tag">
+    <input type="text" name="filter" class="form-control" value="${filter?ifExists}" placeholder="Search by tag">
     <button type="submit">Пошук</button>
 </form>
-<#list messages as message>
+<#list ttns as ttn>
 <div>
-    <b>${message.id}</b>
-    <span>${message.text}</span>
-    <i>${message.tag} </i>
-    <strong>${message.authorName} </strong>
+    <b>${ttn.id}</b>
+    <#-- <b>${ttn.date}</b>-->
+    <#-- <b>${ttn.number}</b>-->
+    <#-- <strong>${ttn.contragent|| ttn.operation} </strong>-->
+    <#-- <strong>${ttn.contragent|| ttn.operation} </strong>-->
+    <#-- <strong>${ttn.wet} </strong>-->
+    <#-- <strong>${ttn.rubbish} </strong>-->
+    <#-- <strong>${ttn.weight} </strong>-->
+    <#-- <strong>${ttn.percentByWet} </strong>-->
+    <#-- <strong>${ttn.percentByRubbish} </strong>-->
+    <b>${ttn.driverName}</b>
+    <b>${ttn.carrier}</b>
+    <b>${ttn.elevatorName}</b>
+    <b>${ttn.nomenclatureName}</b>
+    <b>${ttn.vehicleName}</b>
 </div>
 <#else>
-No message
+No ttn
 </#list>
 
 </@c.page>

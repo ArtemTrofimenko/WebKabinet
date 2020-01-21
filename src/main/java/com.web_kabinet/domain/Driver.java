@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class Driver {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String name;
     private String driverLicense;
