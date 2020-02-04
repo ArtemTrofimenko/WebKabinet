@@ -1,9 +1,12 @@
 package com.web_kabinet.controller;
 
 
+import com.web_kabinet.domain.Contragent;
 import com.web_kabinet.domain.Role;
 import com.web_kabinet.domain.User;
+import com.web_kabinet.repos.ContragentRepo;
 import com.web_kabinet.repos.UserRepo;
+import com.web_kabinet.service.ContragentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,13 +23,20 @@ import java.util.stream.Collectors;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
+    ContragentRepo contragentRepo;
+    @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    ContragentService contragentService;
+
     @GetMapping
-    public String userList (Model model){
+    public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
 
         return "userList";
     }
+
     @GetMapping("{user}")
     public String userEditForm(
 
@@ -44,6 +54,7 @@ public class UserController {
             @RequestParam String username,
             @RequestParam String userEmail,
             @RequestParam Integer userPhoneNumber,
+            @RequestParam String contragent_id,
             @RequestParam(name = "activeUs", required = false, defaultValue = "") String active,
             @RequestParam(name = "fullname", required = false, defaultValue = "Введите ФИО") String fullname,
             @RequestParam Map<String, String> form,
@@ -64,6 +75,8 @@ public class UserController {
         user.setUserPhoneNumber(userPhoneNumber);
         user.setUsername(username);
         user.setActive(!active.equals(""));
+        Contragent contragent = contragentService.findContragentByUUID(contragent_id);
+        user.setContragent(contragent);
         userRepo.save(user);
         return "redirect:/user";
     }

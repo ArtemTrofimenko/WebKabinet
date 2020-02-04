@@ -1,7 +1,7 @@
 package com.web_kabinet.domain;
 
 
-
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +14,7 @@ import java.util.Set;
 public class User implements UserDetails {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contragent_id")
-    Contragent contragent;
+    private Contragent contragent;
 
     public String getFullname() {
         return fullname;
@@ -47,8 +47,13 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private String id;
 
     public void setUserPhoneNumber(Integer userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
@@ -56,6 +61,10 @@ public class User implements UserDetails {
 
     public Contragent getContragent() {
         return contragent;
+    }
+
+    public String getCaName() {
+        return contragent != null ? contragent.getContragentName() : "<none>";
     }
 
     public void setContragent(Contragent contragent) {
@@ -67,17 +76,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public boolean isAdmin(){
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

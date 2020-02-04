@@ -2,7 +2,8 @@ package com.web_kabinet.controller;
 
 
 import com.web_kabinet.domain.*;
-import com.web_kabinet.repos.*;
+import com.web_kabinet.repos.TtnRepo;
+import com.web_kabinet.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,34 +14,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+
 @Controller
 public class MainController {
+
+
     @Autowired
     private TtnRepo ttnRepo;
+
     @Autowired
-    private CarrierRepo carrierRepo;
+    private TtnService ttnService;
+
     @Autowired
-    private ContragentRepo contragentRepo;
+    private CarrierService carrierService;
+
     @Autowired
-    private DriverRepo driverRepo;
+    private ContragentService contragentService;
+
     @Autowired
-    private ElevatorRepo elevatorRepo;
+    private DriverService driverService;
+
     @Autowired
-    private NomenclatureRepo nomenclatureRepo;
+    private ElevatorService elevatorService;
+
     @Autowired
-    private VehicleRepo vehicleRepo;
+    private NomenclatureService nomenclatureService;
+
+    @Autowired
+    private VehicleService vehicleService;
 
     @GetMapping("/")
     public String greeting(
             Map<String, Object> model
     ) {
-
         return "greeting";
     }
 
     @GetMapping("/main")
-    public String main(Model model) {
-        Iterable<Ttn> ttns = ttnRepo.findAll();
+    public String main(@AuthenticationPrincipal User user,
+                       Model model) {
+        Iterable<Ttn> ttns;
+        if (user.isAdmin()) {
+            ttns = ttnRepo.findAll();
+        } else {
+            ttns = ttnRepo.findAllByContragentId(user.getContragent().getId());
+        }
 //        Iterable<Carrier> carriers = carrierRepo.findAll();
 //        ttns = ttnRepo.findByTagContaining(filter);
         model.addAttribute("ttns", ttns);
@@ -58,6 +76,7 @@ public class MainController {
         return "ttnEdit";
     }
 
+
     @PostMapping("/ttnEdit")
     public String add(@AuthenticationPrincipal User user,
                       @RequestParam String carrier_id,
@@ -66,29 +85,23 @@ public class MainController {
                       @RequestParam String elevator_id,
                       @RequestParam String nomenclature_id,
                       @RequestParam String vehicle_id,
+                      @RequestParam String weight,
+                      @RequestParam String rubbish,
+                      @RequestParam String humidity,
                       @RequestParam(required = false, defaultValue = "") String filter,
                       Map<String, Object> model) {
-        Carrier carrier = carrierRepo.findById(Long.valueOf(carrier_id)).stream().
-                findFirst().
-                get();
-        Contragent contragent = contragentRepo.findById(Long.valueOf(contragent_id)).stream().
-                findFirst().
-                get();
-        Driver driver = driverRepo.findById(Long.valueOf(driver_id)).stream().
-                findFirst().
-                get();
-        Elevator elevator = elevatorRepo.findById(Long.valueOf(elevator_id)).stream().
-                findFirst().
-                get();
-        Nomenclature nomenclature = nomenclatureRepo.findById(Long.valueOf(nomenclature_id)).stream().
-                findFirst().
-                get();
-        Vehicle vehicle = vehicleRepo.findById(Long.valueOf(vehicle_id))
-                .stream().
-                        findFirst().
-                        get();
 
-        Ttn ttn = new Ttn(user, carrier, contragent, driver, elevator, nomenclature, vehicle);
+        Contragent contragent = contragentService.findContragentByUUID(contragent_id);
+        Carrier carrier = carrierService.findCarrierByUUID(carrier_id);
+        Driver driver = driverService.findDriverByUUID(driver_id);
+        Elevator elevator = elevatorService.findElevatorByUUID(elevator_id);
+        Nomenclature nomenclature = nomenclatureService.findNomenclatureByUUID(nomenclature_id);
+        Vehicle vehicle = vehicleService.findVehicleByUUID(vehicle_id);
+        Long num = ttnService.getNumber();
+
+
+        Ttn ttn = new Ttn(user, carrier, contragent, driver, elevator, nomenclature, vehicle, num, Float.valueOf(weight), Float.valueOf(rubbish), Float.valueOf(humidity));
+
         ttnRepo.save(ttn);
 
         Iterable<Ttn> ttns = ttnRepo.findAll();

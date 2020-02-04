@@ -1,17 +1,21 @@
 package com.web_kabinet.domain;
 
 
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
+import java.util.Date;
 
 @Entity
 public class Ttn {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-
-    private Long id;
-
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
@@ -41,8 +45,32 @@ public class Ttn {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    @Column(name = "num")
+    private Long num;
 
-    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle) {
+    @Column(name = "index_of_number")
+    private String indexOfNumber = "ТТН";
+
+    @Column(name = "weight")
+    private Float weight;
+
+    @Column(name = "rubbish")
+    private Float rubbish;
+
+    @Column(name = "humidity")
+    private Float humidity;
+
+    @Column(name = "percent_by_humidity")
+    private Float percentByHumidity;
+
+    @Column(name = "percent_by_rubbish")
+    private Float percentByRubbish;
+    @Column(name = "ttnNumber", updatable = false, nullable = false)
+    private String number;
+    @Column(name = "ttnTime", updatable = true, nullable = false)
+    private Date ttnTime;
+
+    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle, Long num, Float weight, Float rubbish, Float humidity) {
         this.author = author;
         this.carrier = carrier;
         this.contragent = contragent;
@@ -50,6 +78,90 @@ public class Ttn {
         this.elevator = elevator;
         this.nomenclature = nomenclature;
         this.vehicle = vehicle;
+        this.num = num;
+        this.weight = weight;
+        this.rubbish = rubbish;
+        this.humidity = humidity;
+        number = indexOfNumber + this.num;
+        getPercent(weight, rubbish, humidity);
+
+    }
+
+    public Ttn(User user) {
+        this.author = user;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Float getRubbish() {
+        return rubbish;
+    }
+
+    public void setRubbish(Float rubbish) {
+        this.rubbish = rubbish;
+    }
+
+    public Float getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Float humidity) {
+        this.humidity = humidity;
+    }
+
+    public Float getPercentByHumidity() {
+        return percentByHumidity;
+    }
+
+    public void setPercentByHumidity(Float percentByHumidity) {
+        this.percentByHumidity = percentByHumidity;
+    }
+
+    public Float getPercentByRubbish() {
+        return percentByRubbish;
+    }
+
+    public void setPercentByRubbish(Float percentByRubbish) {
+        this.percentByRubbish = percentByRubbish;
+    }
+
+    public String getIndexOfNumber() {
+        return indexOfNumber;
+    }
+
+    public void setIndexOfNumber(String indexOfNumber) {
+        this.indexOfNumber = indexOfNumber;
+    }
+
+    public Long getNum() {
+        return num;
+    }
+
+    public void setNum(Long num) {
+        this.num = num;
+    }
+
+    public String getNumber() {
+        number = getIndexOfNumber() + getNum();
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Date getTtnTime() {
+        return ttnTime;
+    }
+
+    public void setTtnTime(Date ttnTime) {
+        this.ttnTime = ttnTime;
     }
 
     public User getAuthor() {
@@ -63,37 +175,89 @@ public class Ttn {
     public Ttn() {
     }
 
-    public Ttn(User user) {
-        this.author = user;
-
+    private void getPercent(Float weight, Float rubbish, Float humidity) {
+        percentByHumidity = weight * humidity / 100;
+        percentByRubbish = weight * rubbish / 100;
     }
 
-    public Long getId() {
+    public Contragent getContragent() {
+        return contragent;
+    }
+
+    public void setContragent(Contragent contragent) {
+        this.contragent = contragent;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Elevator getElevator() {
+        return elevator;
+    }
+
+    public void setElevator(Elevator elevator) {
+        this.elevator = elevator;
+    }
+
+    public Nomenclature getNomenclature() {
+        return nomenclature;
+    }
+
+    public void setNomenclature(Nomenclature nomenclature) {
+        this.nomenclature = nomenclature;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTTNumber() {
+        return number;
+    }
+
+    public String getContragentName() {
+        return contragent != null ? contragent.getContragentName() : "<none>";
     }
 
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
 
+    public String getCarrier() {
+        return carrier != null ? carrier.getCarrierName() : "<none>";
+    }
+
     public String getDriverName() {
         return driver != null ? driver.getName() : "<none>";
     }
 
-    public String getCarrier() {
-        return carrier.getCarrierName();
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
     }
 
     public String getElevatorName() {
-        return elevator.getElevatorName();
+        return elevator != null ? elevator.getElevatorName() : "<none>";
     }
 
     public String getNomenclatureName() {
-        return nomenclature.getName();
+        return nomenclature != null ? nomenclature.getName() : "<none>";
     }
 
     public String getVehicleName() {
