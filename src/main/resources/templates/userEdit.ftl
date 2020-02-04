@@ -4,10 +4,11 @@
 User Editor
 <form action="/user" method="post">
 
-    <input type="text" name="username" value="${user.username}">
-        <input name="fullname" type="text">
-        <input type="email" name="userEmail" >
-        <input type="number" name="userPhoneNumber" >
+    <input name="username" placeholder="Username" type="text"value="${user.username}">
+        <input name="fullname" placeholder="Fullname" type="text">
+        <input name="userEmail" placeholder="UserEmail" type="email">
+        <input name="userPhoneNumber" placeholder="User Phone" type="number">
+        <input name="contragent_id" placeholder="Contragent" type="text">
     <input type="hidden" value="${user.id}" name="userId">
     <#list roles as role>
     <div>

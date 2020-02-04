@@ -13,6 +13,7 @@ List of users<table><thread>
     <td>${user.username}</td>
     <td><#list user.roles as role>${role}<#sep>, </#list></td>
     <td> ${user.active?string("checked", "")}</td>
+    <td> ${user.caName}</td>
     <td><a href="/user/${user.id}">edit</a>
 </tr>
 </#list>

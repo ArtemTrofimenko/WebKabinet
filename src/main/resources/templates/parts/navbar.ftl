@@ -5,6 +5,7 @@
     <a class="navbar-brand" href="/">Kernel Web Kabinet</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -20,8 +21,7 @@
                 <a class="nav-link" href="/user">User list</a>
             </li>
 
-        </
-        #if>
+        </#if>
 
         </ul>
         <ul class="navbar-nav mr-10 ml-3">
@@ -52,8 +52,7 @@
                         <#if name !="unknown"><@l.logout/><#else>
                         <a class="dropleft-item" href="/login">Войти</a>
                         <a class="dropleft-item" href="/registration">Зарегистрироваться</a>
-                    </
-                    #if>
+                    </#if>
                 </div>
             </li>
         </ul>

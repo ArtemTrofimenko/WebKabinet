@@ -9,17 +9,18 @@
 </form>
 <#list ttns as ttn>
 <div>
-    <b>${ttn.id}</b>
+
     <#-- <b>${ttn.date}</b>-->
     <#-- <b>${ttn.number}</b>-->
     <#-- <strong>${ttn.contragent|| ttn.operation} </strong>-->
     <#-- <strong>${ttn.contragent|| ttn.operation} </strong>-->
-    <#-- <strong>${ttn.wet} </strong>-->
-    <#-- <strong>${ttn.rubbish} </strong>-->
-    <#-- <strong>${ttn.weight} </strong>-->
-    <#-- <strong>${ttn.percentByWet} </strong>-->
-    <#-- <strong>${ttn.percentByRubbish} </strong>-->
+    <strong>${ttn.humidity} </strong>
+    <strong>${ttn.rubbish} </strong>
+    <strong>${ttn.weight} </strong>
+    <strong>${ttn.percentByHumidity} </strong>
+     <strong>${ttn.percentByRubbish} </strong>
     <b>${ttn.driverName}</b>
+    <b>${ttn.contragentName}</b>
     <b>${ttn.carrier}</b>
     <b>${ttn.elevatorName}</b>
     <b>${ttn.nomenclatureName}</b>

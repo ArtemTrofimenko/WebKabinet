@@ -5,8 +5,6 @@
         <input name="_csrf" type="hidden" value="${_csrf.token}"/>
         <input name="driverName" placeholder="Введите имя водителя" type="text">
         <input name="driverLicense" placeholder="Введите номер удостоверения" type="text">
-
-
         <button type="submit">Добавить</button>
     </form>
 </div>
