@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Map;
 
 
@@ -88,8 +90,9 @@ public class MainController {
                       @RequestParam String weight,
                       @RequestParam String rubbish,
                       @RequestParam String humidity,
+                      @RequestParam String datepicker,
                       @RequestParam(required = false, defaultValue = "") String filter,
-                      Map<String, Object> model) {
+                      Map<String, Object> model) throws ParseException {
 
         Contragent contragent = contragentService.findContragentByUUID(contragent_id);
         Carrier carrier = carrierService.findCarrierByUUID(carrier_id);
@@ -99,8 +102,9 @@ public class MainController {
         Vehicle vehicle = vehicleService.findVehicleByUUID(vehicle_id);
         Long num = ttnService.getNumber();
 
+        Timestamp timestamp =  ttnService.getTimestamp(datepicker);
 
-        Ttn ttn = new Ttn(user, carrier, contragent, driver, elevator, nomenclature, vehicle, num, Float.valueOf(weight), Float.valueOf(rubbish), Float.valueOf(humidity));
+        Ttn ttn = new Ttn(user, carrier, contragent, driver, elevator, nomenclature, vehicle, num, Float.valueOf(weight), Float.valueOf(rubbish), Float.valueOf(humidity), timestamp);
 
         ttnRepo.save(ttn);
 

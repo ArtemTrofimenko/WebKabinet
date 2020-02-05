@@ -7,6 +7,10 @@ import com.web_kabinet.domain.User;
 import com.web_kabinet.repos.TtnRepo;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,7 +38,6 @@ public class TtnService {
     }
 
     public List<Ttn> loadTtnByContragent(User user) {
-
         Contragent userContragent = user.getContragent();
         return ttnRepo.findAllByContragentId(userContragent.getId());
     }
@@ -43,7 +46,6 @@ public class TtnService {
     public Long getNumber() {
         Long num = 0L;
         Long max = 0L;
-
         max = ttnRepo.findMaxNum();
         if (max == null) {
 
@@ -52,5 +54,14 @@ public class TtnService {
 
         num = max + 1L;
         return num;
+    }
+
+    public Timestamp getTimestamp (String date) throws ParseException {
+        Timestamp timestamp;
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("dd.MM.yyyy");
+        Date d = format.parse(date);
+        timestamp = new Timestamp(d.getTime());
+        return timestamp;
     }
 }

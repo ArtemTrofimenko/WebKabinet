@@ -43,6 +43,7 @@
                     <groupId>org.junit.vine</groupId>
                     <artifactId>junit-vine-engine</artifactId>
                 </exclusion>
+
             </exclusions>
         </dependency>
         <dependency>
@@ -81,11 +82,11 @@
             <artifactId>bootstrap-datepicker</artifactId>
             <version>1.7.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.3.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.webjars</groupId>-->
+<!--            <artifactId>jquery</artifactId>-->
+<!--            <version>3.3.1</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

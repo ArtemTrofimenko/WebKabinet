@@ -4,7 +4,7 @@ package com.web_kabinet.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class Ttn {
@@ -68,9 +68,9 @@ public class Ttn {
     @Column(name = "ttnNumber", updatable = false, nullable = false)
     private String number;
     @Column(name = "ttnTime", updatable = true, nullable = false)
-    private Date ttnTime;
+    private Timestamp ttnTime;
 
-    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle, Long num, Float weight, Float rubbish, Float humidity) {
+    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle, Long num, Float weight, Float rubbish, Float humidity, Timestamp ttnTime) {
         this.author = author;
         this.carrier = carrier;
         this.contragent = contragent;
@@ -82,6 +82,7 @@ public class Ttn {
         this.weight = weight;
         this.rubbish = rubbish;
         this.humidity = humidity;
+        this.ttnTime = ttnTime;
         number = indexOfNumber + this.num;
         getPercent(weight, rubbish, humidity);
 
@@ -149,18 +150,21 @@ public class Ttn {
 
     public String getNumber() {
         number = getIndexOfNumber() + getNum();
-        return number;
+        return num!=null? number:"<none>";
     }
 
     public void setNumber(String number) {
         this.number = number;
     }
 
-    public Date getTtnTime() {
+    public String getTtnDate(){
+        return ttnTime != null ? ttnTime.toString(): "<none>"; }
+
+    public Timestamp getTtnTime() {
         return ttnTime;
     }
 
-    public void setTtnTime(Date ttnTime) {
+    public void setTtnTime(Timestamp ttnTime) {
         this.ttnTime = ttnTime;
     }
 

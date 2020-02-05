@@ -13,6 +13,7 @@
         <input name="humidity" placeholder="Влажность, %" type="text">
         <input name="rubbish" placeholder="Сор, %" type="text">
         <button type="submit">Добавить</button>
+        <p>Date: <input id="datepicker" name="datepicker" type="text"></p>
     </form>
 </div>
 </#macro>

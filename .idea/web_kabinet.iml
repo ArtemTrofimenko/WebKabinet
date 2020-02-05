@@ -115,6 +115,6 @@
     <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:6.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap-datepicker:1.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:3.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:jquery:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars:jquery:1.9.0" level="project" />
   </component>
 </module>
