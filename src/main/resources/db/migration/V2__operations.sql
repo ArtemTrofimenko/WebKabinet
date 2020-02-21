@@ -1,0 +1,1 @@
+ALTER TABLE ttn ADD COLUMN operation VARCHAR(255);

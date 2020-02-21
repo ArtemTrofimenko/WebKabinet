@@ -1,9 +1,11 @@
 package com.web_kabinet.controller;
 
 
+import com.web_kabinet.component.TtnComponent;
 import com.web_kabinet.domain.*;
 import com.web_kabinet.repos.TtnRepo;
 import com.web_kabinet.service.*;
+import com.web_kabinet.ttn.Ttn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,6 +48,10 @@ public class MainController {
     @Autowired
     private VehicleService vehicleService;
 
+    @Autowired
+    private TtnComponent ttnComponent;
+
+
     @GetMapping("/")
     public String greeting(
             Map<String, Object> model
@@ -57,19 +64,22 @@ public class MainController {
                        Model model) {
         Iterable<Ttn> ttns;
         if (user.isAdmin()) {
-            ttns = ttnRepo.findAll();
+//
+
+            return "main";
         } else {
+            String contragent_id = user.getContragent().getId();
+            ttns =  ttnService.getWeightForContragent(contragent_id);
+            List<Nomenclature> nomenclatures = ttnService.getNomenclatureFromTtn((List<Ttn>) ttns);
+            Map <String, Map> totalTtn = ttnComponent.totTtn((List<Ttn>) ttns, nomenclatures);
+            model.addAttribute("ttnComponent", totalTtn);
             ttns = ttnRepo.findAllByContragentId(user.getContragent().getId());
         }
-//        Iterable<Carrier> carriers = carrierRepo.findAll();
-//        ttns = ttnRepo.findByTagContaining(filter);
+
         model.addAttribute("ttns", ttns);
-//        model.addAttribute("carriers", carriers);
-//        model.addAttribute("filter", filter);
 
         return "main";
     }
-
 
     @GetMapping("/ttnEdit")
     public String ttnEdit(Model model) {
@@ -77,7 +87,6 @@ public class MainController {
         model.addAttribute("ttns", ttns);
         return "ttnEdit";
     }
-
 
     @PostMapping("/ttnEdit")
     public String add(@AuthenticationPrincipal User user,
@@ -91,7 +100,8 @@ public class MainController {
                       @RequestParam String rubbish,
                       @RequestParam String humidity,
                       @RequestParam String datepicker,
-                      @RequestParam(required = false, defaultValue = "") String filter,
+                      @RequestParam String operation,
+                      @RequestParam(required = false, defaultValue = "")
                       Map<String, Object> model) throws ParseException {
 
         Contragent contragent = contragentService.findContragentByUUID(contragent_id);
@@ -101,16 +111,41 @@ public class MainController {
         Nomenclature nomenclature = nomenclatureService.findNomenclatureByUUID(nomenclature_id);
         Vehicle vehicle = vehicleService.findVehicleByUUID(vehicle_id);
         Long num = ttnService.getNumber();
-
         Timestamp timestamp =  ttnService.getTimestamp(datepicker);
-
-        Ttn ttn = new Ttn(user, carrier, contragent, driver, elevator, nomenclature, vehicle, num, Float.valueOf(weight), Float.valueOf(rubbish), Float.valueOf(humidity), timestamp);
+        Ttn ttn = Ttn.builder()
+                .author(user)
+                .contragent(contragent)
+                .carrier(carrier)
+                .driver(driver)
+                .elevator(elevator)
+                .nomenclature(nomenclature)
+                .vehicle(vehicle)
+                .weight(weight)
+                .rubbish(rubbish)
+                .humidity(humidity)
+                .ttnTime(timestamp)
+                .num(num)
+                .operation(operation)
+                .build();
 
         ttnRepo.save(ttn);
-
         Iterable<Ttn> ttns = ttnRepo.findAll();
         model.put("ttns", ttns);
         return "redirect:/main";
     }
 
+    @GetMapping("/ttnSearch")
+    public String search(@AuthenticationPrincipal User user,
+                      @RequestParam String contragent_id,
+                         Map<String, Object> model) throws ParseException{
+
+        model.clear();
+        List<Ttn> ttns = (List<Ttn>) ttnService.getWeightForContragent(contragent_id);
+        List<Nomenclature> nomenclatures = ttnService.getNomenclatureFromTtn(ttns);
+        Map <String, Map> totalTtn = ttnComponent.totTtn(ttns, nomenclatures);
+        model.put("ttns", ttns);
+        model.put("ttnComponent", totalTtn);
+        System.out.println(model);
+        return "main";
+    }
 }

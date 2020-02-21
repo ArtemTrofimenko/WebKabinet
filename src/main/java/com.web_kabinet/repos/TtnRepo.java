@@ -1,6 +1,6 @@
 package com.web_kabinet.repos;
 
-import com.web_kabinet.domain.Ttn;
+import com.web_kabinet.ttn.Ttn;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,4 +12,5 @@ public interface TtnRepo extends CrudRepository<Ttn, String> {
     Long findMaxNum();
 
     List<Ttn> findAllByContragentId(String contragent_id);
+
 }

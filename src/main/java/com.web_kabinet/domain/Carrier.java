@@ -4,13 +4,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Carrier {
+public class Carrier implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
@@ -18,6 +18,7 @@ public class Carrier {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
+    @Column(name = "carrier_name")
     private String carrierName;
 
     public Carrier() {

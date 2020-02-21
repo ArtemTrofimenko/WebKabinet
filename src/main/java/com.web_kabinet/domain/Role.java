@@ -3,7 +3,9 @@ package com.web_kabinet.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
+import java.io.Serializable;
+
+public enum Role implements GrantedAuthority, Serializable {
     USER, ADMIN;
 
 

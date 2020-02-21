@@ -1,45 +1,22 @@
 package com.web_kabinet.domain;
 
 
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contragent_id")
     private Contragent contragent;
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public int getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
-
-    public void setUserPhoneNumber(int userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
-    }
-
     private String username;
     private String fullname;
     private String userEmail;
@@ -47,13 +24,14 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
     @Id
-    @GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
+
 
     public void setUserPhoneNumber(Integer userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
@@ -144,6 +122,29 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public int getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(int userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 
 }

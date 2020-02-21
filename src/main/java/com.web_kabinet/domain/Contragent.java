@@ -2,12 +2,15 @@ package com.web_kabinet.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Contragent {
+public class Contragent implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
@@ -15,8 +18,7 @@ public class Contragent {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-
+    @Column(name = "contragent_name")
     private String contragentName;
 
 

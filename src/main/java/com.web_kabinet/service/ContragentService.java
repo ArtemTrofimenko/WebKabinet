@@ -5,7 +5,7 @@ import com.web_kabinet.repos.ContragentRepo;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ContragentService {
+public class ContragentService{
 
     private ContragentRepo contragentRepo;
 

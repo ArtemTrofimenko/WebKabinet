@@ -1,13 +1,21 @@
-package com.web_kabinet.domain;
+package com.web_kabinet.ttn;
 
-
+import com.web_kabinet.component.TtnComponent;
+import com.web_kabinet.domain.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
-@Entity
-public class Ttn {
+@Table(name = "ttn")
+@Entity(name = "Ttn")
+public class Ttn implements Serializable {
+
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -18,30 +26,37 @@ public class Ttn {
     private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "carrier_id")
     private Carrier carrier;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "contragent_id")
     private Contragent contragent;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "elevator_id")
     private Elevator elevator;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "nomenclature_id")
     private Nomenclature nomenclature;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
@@ -65,27 +80,46 @@ public class Ttn {
 
     @Column(name = "percent_by_rubbish")
     private Float percentByRubbish;
-    @Column(name = "ttnNumber", updatable = false, nullable = false)
-    private String number;
-    @Column(name = "ttnTime", updatable = true, nullable = false)
+
+    @Column(name = "ttn_number", updatable = false, nullable = false)
+    private String ttnNumber;
+
+    @Column(name = "ttn_time", updatable = true, nullable = false)
     private Timestamp ttnTime;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "operation", updatable = false, nullable = false)
+    private Operation operation;
 
-    public Ttn(User author, Carrier carrier, Contragent contragent, Driver driver, Elevator elevator, Nomenclature nomenclature, Vehicle vehicle, Long num, Float weight, Float rubbish, Float humidity, Timestamp ttnTime) {
-        this.author = author;
-        this.carrier = carrier;
-        this.contragent = contragent;
-        this.driver = driver;
-        this.elevator = elevator;
-        this.nomenclature = nomenclature;
-        this.vehicle = vehicle;
-        this.num = num;
-        this.weight = weight;
-        this.rubbish = rubbish;
-        this.humidity = humidity;
-        this.ttnTime = ttnTime;
-        number = indexOfNumber + this.num;
-        getPercent(weight, rubbish, humidity);
+    public Ttn(TtnBuilder ttnBuilder) {
+        this.author = ttnBuilder.getAuthor();
+        this.carrier = ttnBuilder.getCarrier();
+        this.contragent = ttnBuilder.getContragent();
+        this.driver = ttnBuilder.getDriver();
+        this.elevator = ttnBuilder.getElevator();
+        this.nomenclature = ttnBuilder.getNomenclature();
+        this.vehicle = ttnBuilder.getVehicle();
+        this.num = ttnBuilder.getNum();
+        this.weight = ttnBuilder.getWeight();
+        this.rubbish = ttnBuilder.getRubbish();
+        this.humidity = ttnBuilder.getHumidity();
+        this.ttnTime = ttnBuilder.getTtnTime();
+        this.percentByHumidity = ttnBuilder.getPercentByHumidity();
+        this.percentByRubbish = ttnBuilder.getPercentByRubbish();
+        this.indexOfNumber = getIndexOfNumber();
+        this.ttnNumber = ttnBuilder.getNumber();
+        this.operation = ttnBuilder.getOperation();
+    }
 
+    public static TtnBuilder builder(){
+        return new TtnBuilder();
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 
     public Ttn(User user) {
@@ -149,16 +183,18 @@ public class Ttn {
     }
 
     public String getNumber() {
-        number = getIndexOfNumber() + getNum();
-        return num!=null? number:"<none>";
+        ttnNumber = getIndexOfNumber() + getNum();
+        return num!=null? ttnNumber:"<none>";
     }
 
     public void setNumber(String number) {
-        this.number = number;
+        this.ttnNumber = number;
     }
 
     public String getTtnDate(){
-        return ttnTime != null ? ttnTime.toString(): "<none>"; }
+        return ttnTime != null ?
+                new SimpleDateFormat("dd/MM/yyyy").format(ttnTime)
+        : "<none>"; }
 
     public Timestamp getTtnTime() {
         return ttnTime;
@@ -179,10 +215,6 @@ public class Ttn {
     public Ttn() {
     }
 
-    private void getPercent(Float weight, Float rubbish, Float humidity) {
-        percentByHumidity = weight * humidity / 100;
-        percentByRubbish = weight * rubbish / 100;
-    }
 
     public Contragent getContragent() {
         return contragent;
@@ -224,20 +256,26 @@ public class Ttn {
         this.vehicle = vehicle;
     }
 
+
     public String getId() {
         return id;
     }
+
 
     public void setId(String id) {
         this.id = id;
     }
 
     public String getTTNumber() {
-        return number;
+        return ttnNumber;
+    }
+    public String getTotalWeight() {
+        String s =TtnComponent.getTotalWeight();
+        return s;
     }
 
     public String getContragentName() {
-        return contragent != null ? contragent.getContragentName() : "<none>";
+        return contragent.getContragentName() != null ? contragent.getContragentName() : "<none>";
     }
 
     public String getAuthorName() {
@@ -245,7 +283,7 @@ public class Ttn {
     }
 
     public String getCarrier() {
-        return carrier != null ? carrier.getCarrierName() : "<none>";
+        return carrier.getCarrierName() != null ? carrier.getCarrierName() : "<none>";
     }
 
     public String getDriverName() {
@@ -257,7 +295,7 @@ public class Ttn {
     }
 
     public String getElevatorName() {
-        return elevator != null ? elevator.getElevatorName() : "<none>";
+        return elevator.getElevatorName() != null ? elevator.getElevatorName() : "<none>";
     }
 
     public String getNomenclatureName() {

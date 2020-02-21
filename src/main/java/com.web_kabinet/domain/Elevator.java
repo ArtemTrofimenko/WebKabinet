@@ -4,13 +4,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Elevator {
+public class Elevator implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
@@ -30,8 +30,9 @@ public class Elevator {
 //    public Long getElevatorId() {
 //        return elevatorId;
 //    }
-
+    @Column(name = "elevator_name")
     private String elevatorName;
+    @Column(name = "elevatoredrpou")
     private Integer elevatorEDRPOU;
 
     public Elevator(String elevatorName, Integer elevatorEDRPOU) {
