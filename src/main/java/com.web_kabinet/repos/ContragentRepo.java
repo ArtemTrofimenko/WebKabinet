@@ -5,4 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface ContragentRepo extends CrudRepository<Contragent, String> {
+    @Override
+    Iterable<Contragent> findAll();
+
+
+
+
 }

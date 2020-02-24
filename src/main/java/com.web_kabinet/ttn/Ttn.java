@@ -1,6 +1,5 @@
 package com.web_kabinet.ttn;
 
-import com.web_kabinet.component.TtnComponent;
 import com.web_kabinet.domain.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -269,13 +268,12 @@ public class Ttn implements Serializable {
     public String getTTNumber() {
         return ttnNumber;
     }
-    public String getTotalWeight() {
-        String s =TtnComponent.getTotalWeight();
-        return s;
-    }
 
     public String getContragentName() {
         return contragent.getContragentName() != null ? contragent.getContragentName() : "<none>";
+    }
+    public String getContragentId() {
+        return contragent.getId() != null ? contragent.getId() : "<none>";
     }
 
     public String getAuthorName() {
@@ -300,6 +298,13 @@ public class Ttn implements Serializable {
 
     public String getNomenclatureName() {
         return nomenclature != null ? nomenclature.getName() : "<none>";
+    }
+
+    public String getNomenclatureId() {
+        return  nomenclature.getId();
+    }
+    public String getSummaryId() {
+        return  getContragentId()+getNomenclatureId();
     }
 
     public String getVehicleName() {

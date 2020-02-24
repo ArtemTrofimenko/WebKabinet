@@ -4,13 +4,11 @@ import com.web_kabinet.ttn.Ttn;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
 
 public interface TtnRepo extends CrudRepository<Ttn, String> {
     @Query(value = "select max(num) from ttn", nativeQuery = true)
     Long findMaxNum();
 
-    List<Ttn> findAllByContragentId(String contragent_id);
+//    List<Ttn> findAllByContragentId(String contragent_id);
 
 }

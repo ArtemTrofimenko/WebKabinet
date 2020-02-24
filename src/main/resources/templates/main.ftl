@@ -3,10 +3,11 @@
 
 <@c.page>
 <@t.ttnSearch></@t.ttnSearch>
+<#if ttns??>
 <div class="table-responsive">
     <#assign nomenclatureNull = ".">
     <#assign lastNomenclature = nomenclatureNull>
-    <#assign lastContragent = nomenclatureNull>
+    <#assign lastContragent = "">
 <table align="center" class="table-bordered " id="outter" >
     <thead align="center" class="">
     <tr>
@@ -26,12 +27,12 @@
         <th scope="col">Транспорт</th>
     </tr>
     </thead>
-    <#list ttns?sort_by("nomenclatureName")?reverse?sort_by("contragentName") as ttn>
+    <#list ttns?sort_by("nomenclatureName")?reverse?sort_by("contragentName")?reverse as ttn>
             <tbody>
             <tr>
-                <#if lastContragent!=ttn.contragentName>
+                <#if lastContragent!=ttn.getContragentId()>
                 <#assign lastNomenclature=nomenclatureNull>
-            </#if>
+                </#if>
             <#if lastNomenclature != ttn.nomenclatureName>
             <tr id="alpha">
                 <td colspan="12" id="nested">
@@ -40,15 +41,14 @@
                         <tr class="table-secondary" >
                             <td><b>Контрагент:</b> ${ttn.getContragentName()}</td>
                             <td><b>Номенклатура:</b> ${ttn.nomenclatureName}</td>
-                            <td><b>Количество суммарное:</b> <#assign myMap = ttnComponent>
-                                <#assign myMap2 = myMap[ttn.getContragentName()]>
-                                ${myMap2[ttn.getNomenclatureName()]}
+                            <td><b>Количество суммарное:</b>
+                                ${ttnComponent[ttn.getSummaryId()]}
                            </td>
                         </tbody>
                     </table>
             </tr></td>
         </#if> <#assign lastNomenclature = ttn.nomenclatureName>
-        <#assign lastContragent = ttn.contragentName>
+        <#assign lastContragent = ttn.getContragentId()>
             <td>${ttn.ttnDate}</td>
             <td>${ttn.number}</td>
             <td>${ttn.operation}</td>
@@ -65,9 +65,8 @@
             <td>${ttn.vehicleName}</td>
             </tr>
 
-    <#else>
-    No ttn
     </#list>
+    </#if>
         </tbody>
         </table>
 </div>

@@ -2,7 +2,6 @@ package com.web_kabinet.service;
 
 import com.web_kabinet.domain.Contragent;
 import com.web_kabinet.domain.Nomenclature;
-import com.web_kabinet.domain.User;
 import com.web_kabinet.repos.TtnRepo;
 import com.web_kabinet.ttn.Ttn;
 import org.hibernate.Criteria;
@@ -52,11 +51,11 @@ public class TtnService {
     public TtnRepo getTtnRepo() {
         return ttnRepo;
     }
-
-    public List<Ttn> loadTtnByContragent(User user) {
-        Contragent userContragent = user.getContragent();
-        return ttnRepo.findAllByContragentId(userContragent.getId());
-    }
+//
+//    public List<Ttn> loadTtnByContragent(User user) {
+//        Contragent userContragent = user.getContragent();
+//        return ttnRepo.findAllByContragentId(userContragent.getId());
+//    }
 
     public Long getNumber() {
         Long num = 0L;
@@ -80,15 +79,17 @@ public class TtnService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE,
             propagation = Propagation.REQUIRED)
-    public Iterable<Ttn> getWeightForContragent(String contragent_id)  {
+    public Iterable<Ttn> getTtnForContragent(List<String> contragent_id)  {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Ttn.class);
-//        session.beginTransaction();
+
+        String[] ccc = {"2823c0d5-a5c0-4152-a60c-9547754d0094", "45fd02d4-35f7-455c-8945-29acc3d29f54"};
+
         Iterable <Ttn> ttns = criteria
-                .add(Restrictions.eq("contragent.id", contragent_id))
+                .add(  Restrictions.and
+                        (Restrictions.in("contragent.id", contragent_id)))
                 .list();
 
-//        session.close();
         return ttns;
     }
 
@@ -98,6 +99,20 @@ public class TtnService {
                 .distinct()
                 .collect(Collectors.toList());
         return nomenclatureList;
+    }
+
+    public List <Contragent> getContragentsFromTtn(List<Ttn> ttns){
+        List<Contragent> contragentList = ttns.stream()
+                .map((Ttn::getContragent))
+                .distinct()
+                .collect(Collectors.toList());
+        return contragentList;
+    }
+
+    public List<String> getContragentsId(List<Contragent> contragents){
+       return contragents.stream()
+                .map(Contragent::getId)
+                .collect(Collectors.toList());
     }
 }
 

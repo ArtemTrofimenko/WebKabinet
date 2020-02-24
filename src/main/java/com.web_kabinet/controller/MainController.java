@@ -69,15 +69,21 @@ public class MainController {
             return "main";
         } else {
             String contragent_id = user.getContragent().getId();
-            ttns =  ttnService.getWeightForContragent(contragent_id);
+//            Iterable<Contragent> CAlist = contragentService.findAll();
+
+            Iterable<Contragent> CAlist = contragentService.findAllContragentByUUID(contragent_id);
+            List<String> ca = ttnService.getContragentsId((List<Contragent>) CAlist);
+            ttns = (List<Ttn>) ttnService.getTtnForContragent(ca);
             List<Nomenclature> nomenclatures = ttnService.getNomenclatureFromTtn((List<Ttn>) ttns);
-            Map <String, Map> totalTtn = ttnComponent.totTtn((List<Ttn>) ttns, nomenclatures);
+            Map<String, String> totalTtn = ttnComponent.totTtn((List<Ttn>) ttns, nomenclatures);
             model.addAttribute("ttnComponent", totalTtn);
-            ttns = ttnRepo.findAllByContragentId(user.getContragent().getId());
+
+//            ttns = ttnService.getTtnForContragent(user.getContragent().getId());
+
         }
 
-        model.addAttribute("ttns", ttns);
 
+        model.addAttribute("ttns", ttns);
         return "main";
     }
 
@@ -136,16 +142,26 @@ public class MainController {
 
     @GetMapping("/ttnSearch")
     public String search(@AuthenticationPrincipal User user,
-                      @RequestParam String contragent_id,
+                      @RequestParam (defaultValue = "") String contragent_id,
                          Map<String, Object> model) throws ParseException{
 
-        model.clear();
-        List<Ttn> ttns = (List<Ttn>) ttnService.getWeightForContragent(contragent_id);
+        List<Ttn> ttns;
+        Map<String, String> totalTtn;
+        if (contragent_id.equals("")){
+            Iterable<Contragent> CAlist = contragentService.findAll();
+            List <String> ca = ttnService.getContragentsId((List<Contragent>) CAlist);
+            ttns = (List<Ttn>) ttnService.getTtnForContragent(ca);
+            List<Nomenclature> nomenclatures = ttnService.getNomenclatureFromTtn(ttns);
+            totalTtn = ttnComponent.totTtn(ttns, nomenclatures);
+        }
+        else {
+            Iterable<Contragent> CAlist = contragentService.findAllContragentByUUID(contragent_id);
+            List<String> ca = ttnService.getContragentsId((List<Contragent>) CAlist);
+            ttns = (List<Ttn>) ttnService.getTtnForContragent(ca);
         List<Nomenclature> nomenclatures = ttnService.getNomenclatureFromTtn(ttns);
-        Map <String, Map> totalTtn = ttnComponent.totTtn(ttns, nomenclatures);
+        totalTtn = ttnComponent.totTtn(ttns, nomenclatures);}
         model.put("ttns", ttns);
         model.put("ttnComponent", totalTtn);
-        System.out.println(model);
         return "main";
     }
 }

@@ -24,7 +24,7 @@ public class User implements UserDetails, Serializable {
     private String password;
     private boolean active;
     @Id
-//    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
