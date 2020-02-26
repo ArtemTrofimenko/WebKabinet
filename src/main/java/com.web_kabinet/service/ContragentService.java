@@ -5,6 +5,7 @@ import com.web_kabinet.repos.ContragentRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class ContragentService{
@@ -18,11 +19,12 @@ public class ContragentService{
     public Contragent findContragentByUUID (String contragentId){
         return contragentRepo.findById(contragentId).orElseThrow(NullPointerException::new);
     }
-    public Iterable findAllContragentByUUID (String contragentId){
-        return contragentRepo.findAllById(Collections.singleton(contragentId));
+    public List <Contragent> findAllContragentByUUID (String contragentId){
+        return (List<Contragent>) contragentRepo.findAllById(Collections.singleton(contragentId));
     }
-    
-    public Iterable<Contragent> findAll(){
+
+
+    public List<Contragent> findAll(){
         return contragentRepo.findAll();
     }
 }

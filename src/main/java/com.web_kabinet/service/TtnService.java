@@ -1,7 +1,9 @@
 package com.web_kabinet.service;
 
+import com.web_kabinet.component.TtnComponent;
 import com.web_kabinet.domain.Contragent;
 import com.web_kabinet.domain.Nomenclature;
+import com.web_kabinet.domain.User;
 import com.web_kabinet.repos.TtnRepo;
 import com.web_kabinet.ttn.Ttn;
 import org.hibernate.Criteria;
@@ -18,19 +20,23 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
 
 @Service
 public class TtnService {
+
+    @Autowired
+    private SessionFactory sessionFactory;
     @Autowired
     private ContragentService contragentService;
     @Autowired
     private NomenclatureService nomenclatureService;
-
     @Autowired
-    private SessionFactory sessionFactory;
+    private TtnComponent ttnComponent;
+
 
     private final TtnRepo ttnRepo;
 
@@ -51,11 +57,6 @@ public class TtnService {
     public TtnRepo getTtnRepo() {
         return ttnRepo;
     }
-//
-//    public List<Ttn> loadTtnByContragent(User user) {
-//        Contragent userContragent = user.getContragent();
-//        return ttnRepo.findAllByContragentId(userContragent.getId());
-//    }
 
     public Long getNumber() {
         Long num = 0L;
@@ -79,13 +80,11 @@ public class TtnService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE,
             propagation = Propagation.REQUIRED)
-    public Iterable<Ttn> getTtnForContragent(List<String> contragent_id)  {
+    public List<Ttn> getTtnForContragent(List<String> contragent_id)  {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Ttn.class);
 
-        String[] ccc = {"2823c0d5-a5c0-4152-a60c-9547754d0094", "45fd02d4-35f7-455c-8945-29acc3d29f54"};
-
-        Iterable <Ttn> ttns = criteria
+        List <Ttn> ttns = criteria
                 .add(  Restrictions.and
                         (Restrictions.in("contragent.id", contragent_id)))
                 .list();
@@ -114,6 +113,48 @@ public class TtnService {
                 .map(Contragent::getId)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public Map getTtnSearchResult(User user, String contragent_id){
+
+        List<Ttn> ttns;
+        Map<String, String> totalTtn;
+        Map result = new HashMap();
+        List<Contragent> contragentList;
+        List <String> contragentsId;
+
+        if (contragent_id.equals("")) {
+
+            contragentList =  (user.isAdmin()) ? contragentService.findAll() : user.getUserContragents();
+
+            contragentsId = getContragentsId (contragentList);
+
+            ttns = getTtnForContragent(contragentsId);
+
+            List<Nomenclature> nomenclatures = getNomenclatureFromTtn(ttns);
+            totalTtn = ttnComponent.totTtn(ttns, nomenclatures);
+
+        }
+        else {
+
+            contragentList = contragentService.findAllContragentByUUID(contragent_id);
+            contragentsId = getContragentsId(contragentList);
+
+            ttns =  getTtnForContragent(contragentsId);
+
+            List<Nomenclature> nomenclatures = getNomenclatureFromTtn(ttns);
+            totalTtn = ttnComponent.totTtn(ttns, nomenclatures);
+
+        }
+
+        result.put("ttnComponent", totalTtn);
+        result.put("ttns", ttns);
+
+        return result;
+    }
+
+
+
 }
 
 

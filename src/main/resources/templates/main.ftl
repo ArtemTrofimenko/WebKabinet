@@ -27,7 +27,7 @@
         <th scope="col">Транспорт</th>
     </tr>
     </thead>
-    <#list ttns?sort_by("nomenclatureName")?reverse?sort_by("contragentName")?reverse as ttn>
+    <#list ttns?sort_by("ttnDate")?sort_by("number")?sort_by("nomenclatureName")?sort_by("contragentName") as ttn>
             <tbody>
             <tr>
                 <#if lastContragent!=ttn.getContragentId()>

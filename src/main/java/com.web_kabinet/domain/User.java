@@ -1,7 +1,6 @@
 package com.web_kabinet.domain;
 
 
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,6 +39,12 @@ public class User implements UserDetails, Serializable {
 
     public Contragent getContragent() {
         return contragent;
+    }
+
+    public List<Contragent> getUserContragents() {
+        List<Contragent> contragentList = List.of(contragent);
+
+        return contragentList;
     }
 
     public String getCaName() {
@@ -123,6 +129,7 @@ public class User implements UserDetails, Serializable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     public String getFullname() {
         return fullname;
     }

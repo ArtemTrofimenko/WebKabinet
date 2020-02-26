@@ -193,7 +193,8 @@ public class Ttn implements Serializable {
     public String getTtnDate(){
         return ttnTime != null ?
                 new SimpleDateFormat("dd/MM/yyyy").format(ttnTime)
-        : "<none>"; }
+        : "<none>";
+    }
 
     public Timestamp getTtnTime() {
         return ttnTime;
