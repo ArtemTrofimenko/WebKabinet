@@ -60,7 +60,6 @@
             <td>${ttn.percentByRubbish}</td>
             <td>${ttn.driverName}</td>
             <td>${ttn.carrier}</td>
-            <td>${ttn.elevatorName}</td>
 <#--        <td>${ttn.nomenclatureName}</td>-->
             <td>${ttn.vehicleName}</td>
             </tr>

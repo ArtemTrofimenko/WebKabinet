@@ -16,10 +16,14 @@ import java.util.Set;
 public class User implements UserDetails, Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contragent_id")
+
+
     private Contragent contragent;
     private String username;
     private String fullname;
+    @Column(name = "user_email")
     private String userEmail;
+    @Column(name = "user_phone_number")
     private Integer userPhoneNumber;
     private String password;
     private boolean active;

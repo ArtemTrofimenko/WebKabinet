@@ -10,7 +10,6 @@ public class TtnBuilder {
     private Carrier carrier;
     private Contragent contragent;
     private Driver driver;
-    private Elevator elevator;
     private Nomenclature nomenclature;
     private Vehicle vehicle;
     private Long num;
@@ -65,10 +64,6 @@ public class TtnBuilder {
 
     public Driver getDriver() {
         return driver;
-    }
-
-    public Elevator getElevator() {
-        return elevator;
     }
 
     public Nomenclature getNomenclature() {
@@ -126,11 +121,6 @@ public class TtnBuilder {
 
     public TtnBuilder driver (Driver driver){
         this.driver = driver;
-        return this;
-    }
-
-    public TtnBuilder elevator (Elevator elevator){
-        this.elevator = elevator;
         return this;
     }
 

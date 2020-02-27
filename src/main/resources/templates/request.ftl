@@ -23,7 +23,6 @@
         <td>${request.getReqNumber()}</td>
         <td>${request.contragentName}</td>
         <td>${request.weight}</td>
-        <td>${request.elevatorName}</td>
         <td>${request.nomenclatureName}</td>
         <td>${request.getCheckedString()}</td>
         </tr>

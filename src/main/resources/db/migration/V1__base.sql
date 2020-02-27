@@ -56,21 +56,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
--- Table `wk_db`.`elevator`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wk_db`.`elevator` (
-  `id` VARCHAR(255) NOT NULL,
-  `elevatoredrpou` INT(11) NULL DEFAULT NULL,
-  `elevator_id` VARCHAR(255) NULL DEFAULT NULL,
-  `elevator_name` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
 -- -----------------------------------------------------
 -- Table `wk_db`.`flyway_schema_history`
 -- -----------------------------------------------------
@@ -166,7 +151,6 @@ CREATE TABLE IF NOT EXISTS `wk_db`.`ttn` (
   `carrier_id` VARCHAR(255) NULL DEFAULT NULL,
   `contragent_id` VARCHAR(255) NULL DEFAULT NULL,
   `driver_id` VARCHAR(255) NULL DEFAULT NULL,
-  `elevator_id` VARCHAR(255) NULL DEFAULT NULL,
   `nomenclature_id` VARCHAR(255) NULL DEFAULT NULL,
   `vehicle_id` VARCHAR(255) NULL DEFAULT NULL,
   `num` BIGINT(20) NULL DEFAULT NULL,
@@ -183,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `wk_db`.`ttn` (
   INDEX `contragent_fk` (`contragent_id` ASC),
   INDEX `carrier_fk` (`carrier_id` ASC),
   INDEX `driver_fk` (`driver_id` ASC),
-  INDEX `elevator_fk` (`elevator_id` ASC),
+
   INDEX `nomenclature_fk` (`nomenclature_id` ASC),
   INDEX `vehicle_fk` (`vehicle_id` ASC),
   CONSTRAINT `carrier_fk`
@@ -195,9 +179,6 @@ CREATE TABLE IF NOT EXISTS `wk_db`.`ttn` (
   CONSTRAINT `driver_fk`
     FOREIGN KEY (`driver_id`)
     REFERENCES `wk_db`.`driver` (`id`),
-  CONSTRAINT `elevator_fk`
-    FOREIGN KEY (`elevator_id`)
-    REFERENCES `wk_db`.`elevator` (`id`),
   CONSTRAINT `nomenclature_fk`
     FOREIGN KEY (`nomenclature_id`)
     REFERENCES `wk_db`.`nomenclature` (`id`),

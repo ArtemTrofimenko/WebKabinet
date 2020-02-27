@@ -1,7 +1,6 @@
 package com.web_kabinet.request;
 
 import com.web_kabinet.domain.Contragent;
-import com.web_kabinet.domain.Elevator;
 import com.web_kabinet.domain.Nomenclature;
 import com.web_kabinet.domain.User;
 
@@ -10,7 +9,6 @@ import java.sql.Timestamp;
 public class RequestBuilder {
     private User author;
     private Contragent contragent;
-    private Elevator elevator;
     private Nomenclature nomenclature;
     private Long num;
     private Float weight;
@@ -29,10 +27,6 @@ public class RequestBuilder {
 
     public Boolean getChecked() {
         return isChecked;
-    }
-
-    public Elevator getElevator() {
-        return elevator;
     }
 
     public Nomenclature getNomenclature() {
@@ -69,11 +63,6 @@ public class RequestBuilder {
         return this;
     }
 
-
-    public RequestBuilder elevator (Elevator elevator){
-        this.elevator = elevator;
-        return this;
-    }
 
     public RequestBuilder nomenclature (Nomenclature nomenclature){
         this.nomenclature = nomenclature;

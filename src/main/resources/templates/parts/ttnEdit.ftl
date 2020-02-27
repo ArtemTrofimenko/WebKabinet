@@ -4,7 +4,6 @@
 <div xmlns="http://www.w3.org/1999/html"> <form method="post">
         <input name="_csrf" type="hidden" value="${_csrf.token}"/>
         <input name="vehicle_id" placeholder="Автомобиль" type="text">
-        <input name="elevator_id" placeholder="Элеватор" type="text">
         <input name="driver_id" placeholder="Водитель" type="text">
         <input name="contragent_id" placeholder="Контрагент" type="text">
         <input name="carrier_id" placeholder="Перевозчик" type="text">

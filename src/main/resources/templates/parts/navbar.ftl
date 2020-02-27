@@ -37,7 +37,6 @@
                         <a class="dropdown-item" href="/driver">Водитель</a>
                         <a class="dropdown-item" href="/vehicle">Транспортные средства</a>
                         <a class="dropdown-item" href="/nomenclature">Номенклатура</a>
-                        <a class="dropdown-item" href="/elevator">Места хранения</a>
                     </div>
             </li>
             <li class="nav-item">

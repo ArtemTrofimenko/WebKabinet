@@ -40,9 +40,6 @@ public class MainController {
     private DriverService driverService;
 
     @Autowired
-    private ElevatorService elevatorService;
-
-    @Autowired
     private NomenclatureService nomenclatureService;
 
     @Autowired
@@ -91,7 +88,6 @@ public class MainController {
                       @RequestParam String carrier_id,
                       @RequestParam String contragent_id,
                       @RequestParam String driver_id,
-                      @RequestParam String elevator_id,
                       @RequestParam String nomenclature_id,
                       @RequestParam String vehicle_id,
                       @RequestParam String weight,
@@ -105,7 +101,6 @@ public class MainController {
         Contragent contragent = contragentService.findContragentByUUID(contragent_id);
         Carrier carrier = carrierService.findCarrierByUUID(carrier_id);
         Driver driver = driverService.findDriverByUUID(driver_id);
-        Elevator elevator = elevatorService.findElevatorByUUID(elevator_id);
         Nomenclature nomenclature = nomenclatureService.findNomenclatureByUUID(nomenclature_id);
         Vehicle vehicle = vehicleService.findVehicleByUUID(vehicle_id);
         Long num = ttnService.getNumber();
@@ -115,7 +110,6 @@ public class MainController {
                 .contragent(contragent)
                 .carrier(carrier)
                 .driver(driver)
-                .elevator(elevator)
                 .nomenclature(nomenclature)
                 .vehicle(vehicle)
                 .weight(weight)

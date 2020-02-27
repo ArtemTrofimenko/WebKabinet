@@ -28,6 +28,7 @@ public class Driver implements Serializable {
     }
 
     private String name;
+    @Column(name = "driver_license")
     private String driverLicense;
 
     public Driver(String name, String driverLicense) {

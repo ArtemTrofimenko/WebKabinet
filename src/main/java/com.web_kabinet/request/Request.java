@@ -1,7 +1,6 @@
 package com.web_kabinet.request;
 
 import com.web_kabinet.domain.Contragent;
-import com.web_kabinet.domain.Elevator;
 import com.web_kabinet.domain.Nomenclature;
 import com.web_kabinet.domain.User;
 import org.hibernate.annotations.Fetch;
@@ -35,11 +34,6 @@ public class Request {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "elevator_id")
-    private Elevator elevator;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "nomenclature_id")
     private Nomenclature nomenclature;
 
@@ -64,7 +58,6 @@ public class Request {
     public Request(RequestBuilder requestBuilder) {
         this.author = requestBuilder.getAuthor();
         this.contragent = requestBuilder.getContragent();
-        this.elevator = requestBuilder.getElevator();
         this.indexOfNumber = getIndexOfNumber();
         this.isChecked = requestBuilder.getChecked();
         this.nomenclature = requestBuilder.getNomenclature();
@@ -103,14 +96,6 @@ public class Request {
 
     public void setContragent(Contragent contragent) {
         this.contragent = contragent;
-    }
-
-    public Elevator getElevator() {
-        return elevator;
-    }
-
-    public void setElevator(Elevator elevator) {
-        this.elevator = elevator;
     }
 
     public Nomenclature getNomenclature() {
@@ -181,9 +166,6 @@ public class Request {
 
     public String getContragentName() {
         return contragent.getContragentName() != null ? contragent.getContragentName() : "<none>";
-    }
-    public String getElevatorName() {
-        return elevator.getElevatorName() != null ? elevator.getElevatorName() : "<none>";
     }
     public String getNomenclatureName() {
         return nomenclature != null ? nomenclature.getName() : "<none>";

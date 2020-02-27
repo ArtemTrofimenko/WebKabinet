@@ -46,11 +46,6 @@ public class Ttn implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "elevator_id")
-    private Elevator elevator;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "nomenclature_id")
     private Nomenclature nomenclature;
 
@@ -94,7 +89,6 @@ public class Ttn implements Serializable {
         this.carrier = ttnBuilder.getCarrier();
         this.contragent = ttnBuilder.getContragent();
         this.driver = ttnBuilder.getDriver();
-        this.elevator = ttnBuilder.getElevator();
         this.nomenclature = ttnBuilder.getNomenclature();
         this.vehicle = ttnBuilder.getVehicle();
         this.num = ttnBuilder.getNum();
@@ -232,14 +226,6 @@ public class Ttn implements Serializable {
         this.driver = driver;
     }
 
-    public Elevator getElevator() {
-        return elevator;
-    }
-
-    public void setElevator(Elevator elevator) {
-        this.elevator = elevator;
-    }
-
     public Nomenclature getNomenclature() {
         return nomenclature;
     }
@@ -291,10 +277,6 @@ public class Ttn implements Serializable {
 
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
-    }
-
-    public String getElevatorName() {
-        return elevator.getElevatorName() != null ? elevator.getElevatorName() : "<none>";
     }
 
     public String getNomenclatureName() {

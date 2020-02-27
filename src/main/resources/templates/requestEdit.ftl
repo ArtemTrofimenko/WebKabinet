@@ -6,7 +6,6 @@
 Request Editor
 <div xmlns="http://www.w3.org/1999/html"> <form method="post">
     <input name="_csrf" type="hidden" value="${_csrf.token}"/>
-    <input name="elevator_id" placeholder="Элеватор" type="text">
     <input name="contragent_id" placeholder="Контрагент" type="text">
     <input name="nomenclature_id" placeholder="Номенклатура" type="text">
     <input name="isChecked" type="checkbox" value="true" >Проверено
