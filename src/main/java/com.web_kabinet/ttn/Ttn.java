@@ -268,11 +268,11 @@ public class Ttn implements Serializable {
     }
 
     public String getCarrier() {
-        return carrier.getCarrierName() != null ? carrier.getCarrierName() : "<none>";
+        return carrier != null ? carrier.getCarrierName() : "-";
     }
 
     public String getDriverName() {
-        return driver != null ? driver.getName() : "<none>";
+        return driver != null ? driver.getName() : "-";
     }
 
     public void setCarrier(Carrier carrier) {
@@ -291,6 +291,6 @@ public class Ttn implements Serializable {
     }
 
     public String getVehicleName() {
-        return vehicle.getCarModel() + " " + vehicle.getCarNumber();
+        return vehicle!=null? vehicle.getCarModel() + " " + vehicle.getCarNumber() : "-";
     }
 }

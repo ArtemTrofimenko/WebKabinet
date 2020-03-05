@@ -10,7 +10,6 @@
             <th scope="col">Номер заявки</th>
             <th scope="col">Контрагент</th>
             <th scope="col">Масса, кг</th>
-            <th scope="col">Элеватор</th>
             <th scope="col">Номенклатура</th>
             <th scope="col">Статус</th>
         </tr>
@@ -18,13 +17,14 @@
 <#--    </#if>-->
         <tbody>
         <#list requests?sort_by("nomenclatureName")?sort_by("reqDate")?sort_by("reqNumber")?sort_by("contragentName") as request>
-
-        <td>${request.getReqDate()}</td>
+        <div>
+        <td><a href="/request/${request.getId()}">${request.getReqDate()}</a></td>
         <td>${request.getReqNumber()}</td>
         <td>${request.contragentName}</td>
         <td>${request.weight}</td>
         <td>${request.nomenclatureName}</td>
         <td>${request.getCheckedString()}</td>
+        </div>
         </tr>
 
     </#list>

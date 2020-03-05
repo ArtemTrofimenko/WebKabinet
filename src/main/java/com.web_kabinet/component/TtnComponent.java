@@ -21,8 +21,11 @@ import static com.web_kabinet.domain.Operation.COMING;
 public class TtnComponent {
 
     @Autowired
-    TtnService ttnService;
-    private Map<String, String> finalMap = new HashMap<>();
+   public TtnService ttnService;
+
+    private Map<String, String> weightMap = new HashMap<>();
+    private Map<String, String> humidityMap = new HashMap<>();
+    private Map<String, String> rubbishMap = new HashMap<>();
 
     public TtnComponent() {
     }
@@ -39,6 +42,11 @@ public class TtnComponent {
 
                 List<Float> plusTtn = new ArrayList<>();
                 List<Float> minusTtn = new ArrayList<>();
+
+                List<Float> humidity = new ArrayList<>();
+
+                List<Float> rubbish = new ArrayList<>();
+
                 List<Ttn> ttnForOperation = ttns.stream()
                         .filter(ttn -> (ttn.getContragent().equals(contragent) && ttn.getNomenclature().equals(nom)))
                         .collect(Collectors.toList());
@@ -47,11 +55,14 @@ public class TtnComponent {
                         ttnForOperation) {
                     Operation operation = t.getOperation();
 
-                        if (operation.equals(COMING)) {
-                            plusTtn.add(t.getWeight());
-                        } else {
-                            minusTtn.add(t.getWeight());
-                        }
+                    if (operation.equals(COMING)) {
+                        humidity.add(t.getHumidity());
+                        rubbish.add(t.getRubbish());
+                        plusTtn.add(t.getWeight());
+                    } else {
+                        minusTtn.add(t.getWeight());
+                    }
+
 
                 }
 
@@ -62,23 +73,43 @@ public class TtnComponent {
                         .reduce(Float::sum)
                         .orElse((float) 0);
 
+                String totalHumidity =String.valueOf(humidity.stream()
+                        .mapToDouble(e->e)
+                        .average()
+                        .orElse((0)));
+
+                String totalRubbish = String.valueOf(rubbish.stream()
+                        .mapToDouble(e->e)
+                        .average()
+                        .orElse((0)));
+
                 String sum = String.valueOf(plusSum - minusSum);
 
                 String key = keyIdGenerator(contragent_id, nom.getId());
-                finalMap.put(key, sum);
+                humidityMap.put(key, totalHumidity);
+                rubbishMap.put(key, totalRubbish);
+                weightMap.put(key, sum);
             }
 
 
         }
 
-        return finalMap;
+        return weightMap;
     }
 
-    public Map<String, String> getFinalMap() {
-        return finalMap;
-    }
+//    public Map<String, String> getFinalMap() {
+//        return finalMap;
+//    }
 
     private String keyIdGenerator(String contragent_id, String nomenclature_id){
         return contragent_id+nomenclature_id;
+    }
+
+    public Map <String, String> getHumidityMap(){
+        return humidityMap;
+    }
+
+    public Map<String, String> getRubbishMap(){
+        return rubbishMap;
     }
 }

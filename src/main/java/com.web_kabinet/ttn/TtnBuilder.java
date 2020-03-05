@@ -1,6 +1,7 @@
 package com.web_kabinet.ttn;
 
 import com.web_kabinet.domain.*;
+import com.web_kabinet.request.Request;
 
 import java.sql.Timestamp;
 
@@ -25,6 +26,8 @@ public class TtnBuilder {
 
     public TtnBuilder() {
     }
+
+
 
     public Operation getOperation() {
         return operation;
@@ -177,4 +180,17 @@ public class TtnBuilder {
     }
 
 
+    public TtnBuilder request (Request request){
+        contragent = request.getContragent();
+        nomenclature = request.getNomenclature();
+        weight = request.getWeight();
+        ttnTime = new Timestamp(System.currentTimeMillis());
+        operation = Operation.CONSUMPTION;
+        carrier = null;
+        driver = null;
+        vehicle = null;
+//
+
+        return this;
+    }
 }

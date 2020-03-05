@@ -131,11 +131,11 @@ public class MainController {
                       @RequestParam (defaultValue = "") String contragent_id,
                          Map<String, Object> model) throws ParseException{
 
-        Map result = ttnService.getTtnSearchResult(user, contragent_id);
+        Map <String, Object> result = ttnService.getTtnSearchResult(user, contragent_id);
         List<Ttn> ttns = (List<Ttn>) result.get("ttns");
         Map<String, String> totalTtn = (Map<String, String>) result.get("ttnComponent");
         model.put("ttns", ttns);
-        model.put("ttnComponent", totalTtn);
+        model.put("ttnTotalWeight", totalTtn);
         return "main";
     }
 }

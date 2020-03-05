@@ -42,7 +42,7 @@
                             <td><b>Контрагент:</b> ${ttn.getContragentName()}</td>
                             <td><b>Номенклатура:</b> ${ttn.nomenclatureName}</td>
                             <td><b>Количество суммарное:</b>
-                                ${ttnComponent[ttn.getSummaryId()]}
+                                ${ttnTotalWeight[ttn.getSummaryId()]}
                            </td>
                         </tbody>
                     </table>

@@ -115,11 +115,11 @@ public class TtnService {
     }
 
     @Transactional
-    public Map getTtnSearchResult(User user, String contragent_id){
+    public Map<String, Object> getTtnSearchResult(User user, String contragent_id){
 
         List<Ttn> ttns;
         Map<String, String> totalTtn;
-        Map result = new HashMap();
+        Map<String, Object> result = new HashMap<String, Object>();
         List<Contragent> contragentList;
         List <String> contragentsId;
 

@@ -8,11 +8,13 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-@Entity(name = "request")
-public class Request {
+@Entity
+@Table(name = "request")
+public class Request implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -70,12 +72,12 @@ public class Request {
     public Request() {
     }
 
-    public static RequestBuilder builder(){
+    public static RequestBuilder builder() {
         return new RequestBuilder();
     }
 
     public String getId() {
-        return id;
+        return id != null ? id : "";
     }
 
     public void setId(String id) {
@@ -155,10 +157,10 @@ public class Request {
     }
 
     public String getCheckedString() {
-        return isChecked?"Подтверждена":"Неподтверждена";
+        return isChecked ? "Подтверждена" : "Неподтверждена";
     }
 
-    public String getReqDate(){
+    public String getReqDate() {
         return reqTime != null ?
                 new SimpleDateFormat("dd/MM/yyyy").format(reqTime)
                 : "<none>";
@@ -167,7 +169,16 @@ public class Request {
     public String getContragentName() {
         return contragent.getContragentName() != null ? contragent.getContragentName() : "<none>";
     }
+
+    public String getContragentId() {
+        return contragent.getId() != null ? contragent.getId() : "";
+    }
+
     public String getNomenclatureName() {
         return nomenclature != null ? nomenclature.getName() : "<none>";
+    }
+
+    public String getNomenclatureId() {
+        return nomenclature != null ? nomenclature.getId() : "";
     }
 }

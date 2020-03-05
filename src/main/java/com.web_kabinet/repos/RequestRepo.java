@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface RequestRepo extends CrudRepository<Request, String> {
     @Query(value = "select max(num) from request", nativeQuery = true)
     Long findMaxNum();
+
+
 }
