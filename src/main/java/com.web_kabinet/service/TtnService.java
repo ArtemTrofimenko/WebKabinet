@@ -28,22 +28,27 @@ import java.util.stream.Collectors;
 @Service
 public class TtnService {
 
-    @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
     private ContragentService contragentService;
-    @Autowired
     private NomenclatureService nomenclatureService;
-    @Autowired
     private TtnComponent ttnComponent;
 
+    @Autowired
+    TtnService(SessionFactory sessionFactory, ContragentService contragentService, NomenclatureService nomenclatureService,
+               TtnComponent ttnComponent, TtnRepo ttnRepo)
+    {
+        this.contragentService = contragentService;
+        this.sessionFactory = sessionFactory;
+        this.nomenclatureService = nomenclatureService;
+        this.ttnComponent = ttnComponent;
+        this.ttnRepo = ttnRepo;
+    }
 
     private final TtnRepo ttnRepo;
 
     private String indexOfNumber = "ТТН";
 
-    public TtnService(TtnRepo ttnRepo) {
-        this.ttnRepo = ttnRepo;
+    public TtnService(TtnRepo ttnRepo) { this.ttnRepo = ttnRepo;
     }
 
     public String getIndexOfNumber() {

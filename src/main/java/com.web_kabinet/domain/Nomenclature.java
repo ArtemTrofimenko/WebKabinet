@@ -24,6 +24,11 @@ public class Nomenclature implements Serializable {
     public Nomenclature() {
     }
 
+    public Nomenclature(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
